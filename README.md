@@ -1,7 +1,5 @@
 # ts-upc-thesis
 
-> **免责声明**：本模板为个人开源项目，**非中国石油大学（华东）官方模板**。排版规范参考学校发布的《本科毕业设计（论文）撰写规范》制作，仅供学习交流使用。正式提交前请以学校官方提供的 Word/LaTeX 模板或教务处最新要求为准。
-
 中国石油大学（华东）本科毕业设计（论文）Typst 模板，独立框架，开箱即用。
 
 [![Typst Universe](https://img.shields.io/badge/Typst%20Universe-ts--upc--thesis-blue)](https://typst.app/universe/package/ts-upc-thesis)
@@ -40,7 +38,14 @@
 git clone https://github.com/ttOwwA/ts-upc-thesis-typst.git
 cd ts-upc-thesis-typst
 # 编译开发示例
-typst compile demo/thesis-upc.typ demo/thesis-upc.pdf
+cd demo && typst compile --root .. thesis-upc.typ
+```
+
+测试模板（需要先安装到本地包目录）：
+
+```bash
+bash scripts/package @preview
+cd template && typst compile thesis.typ
 ```
 
 ## 项目结构
@@ -87,3 +92,7 @@ sudo apt-get install fonts-fandol
 ## 许可证
 
 MIT License
+
+---
+
+> **说明**：本模板为个人开源项目，参考学校《本科毕业设计（论文）撰写规范》制作。使用前建议与导师确认是否符合院系具体要求。
