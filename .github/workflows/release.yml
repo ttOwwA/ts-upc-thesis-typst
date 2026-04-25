@@ -35,7 +35,8 @@ jobs:
       - name: Generate thumbnail from demo PDF (page 1)
         run: |
           pdftoppm -png -f 1 -l 1 -r 150 demo/thesis-upc.pdf thumbnail
-          mv thumbnail-1.png thumbnail.png
+          # pdftoppm may create thumbnail-1.png or thumbnail.png depending on version
+          mv thumbnail*.png thumbnail.png
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
