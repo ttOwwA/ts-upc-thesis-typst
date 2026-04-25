@@ -33,7 +33,7 @@
 
     // 题目
     #align(left, text(size: utils.xiaoer, font: fonts.get-cjk-sans())[题#h(1em)目：#text(font: fonts.get-cjk-sans(), title)])
-    v(0.3cm)
+    #v(0.3cm)
     #if subtitle != "" {
       align(right, text(size: utils.xiaoer, font: fonts.get-cjk-sans(), [——#h(0.3em)] + subtitle))
     }

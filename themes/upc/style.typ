@@ -203,15 +203,8 @@
     context {
       let targets = query(it.target)
       if targets.len() == 0 {
-        let map = utils.table-ref-map.get()
-        let key = repr(it.target)
-        if key in map {
-          let (ch, num) = map.at(key)
-          link(it.target, str(ch) + "-" + str(num))
-        } else {
-          set text(fill: colors.primary)
-          it
-        }
+        set text(fill: colors.primary)
+        it
       } else {
         let target = targets.first()
         if target.func() == math.equation {

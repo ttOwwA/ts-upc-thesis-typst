@@ -21,7 +21,6 @@
       header: (
         [函数名], [功能说明],
       ),
-      auto-caption: true,
       [InitList], [初始化线性表],
       [InsertElem], [插入元素],
       [DeleteElem], [删除元素],

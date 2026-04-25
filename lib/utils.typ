@@ -33,14 +33,6 @@
   }
 }
 
-// 按章编号格式（图 1-1、表 1-1、公式 (1-1)）
-#let chapter-numbering(ch, num, prefix: "") = {
-  prefix + str(ch) + "-" + str(num)
-}
-
-// 检查是否为中文环境
-#let is-zh(lang) = lang == "zh" or lang == "zh-CN" or lang == "cn"
-
 // ---- 伪粗体（fake bold） ----
 // 中文字体（如 SimHei）通常没有独立的 Bold 字重，Typst 默认不会自动模拟加粗。
 // 使用 text stroke 来模拟粗体效果，与 LaTeX 的 AutoFakeBold 类似。
@@ -61,17 +53,9 @@
   s
 }
 
-// ---- 三线表状态（用于续表检测） ----
-#let three-line-table-first = state("three-line-table-first", false)
-#let three-line-table-number = state("three-line-table-number", (0, 0))
-
-// ---- 表格引用映射（用于无 figure 包裹的表格引用） ----
-#let table-ref-map = state("table-ref-map", (:))
-
-// ---- 附录状态（用于引用编号与续表前缀） ----
+// ---- 附录状态（用于引用编号） ----
 #let appendix-active = state("appendix-active", false)
 #let appendix-letter = state("appendix-letter", "")
-#let three-line-table-fig-number = state("three-line-table-fig-number", none)
 
 // ---- 表头辅助：名称与单位分行显示 ----
 // 用法 1（自动拆分）：hcell("辐照时间/s")  =>  辐照时间 在上，/s 在下
@@ -102,15 +86,10 @@
 
 // ---- 三线表辅助函数 ----
 // 自动添加三线表格式（顶粗线、头细线、底粗线），并支持表头分页重复。
-// 当 auto-caption 为 true 时，跨页重复表头前会在右上方显示“续表X-X”。
-// 若提供 caption，则在 table 前手动输出“表 X-Y  caption”（不再依赖 figure 包裹）。
 // 使用示例：
 //   #three-line-table(
 //     columns: 3,
 //     header: ([列1], [列2], [列3]),
-//     caption: [表标题],
-//     tbl-label: <tab:1-1>,
-//     auto-caption: true,
 //     [数据1], [数据2], [数据3],
 //   )
 #let three-line-table(
@@ -120,20 +99,37 @@
   inset: 6pt,
   repeat-header: true,
   header: (),
-  auto-caption: false,
-  caption: none,
-  label: none,
   ..body
 ) = {
-  let cols-count = if type(columns) == int {
-    columns
-  } else if type(columns) == array {
-    columns.len()
-  } else if header != () {
-    header.len()
+  if header == () {
+    table(
+      columns: columns,
+      rows: rows,
+      align: table-align,
+      inset: inset,
+      stroke: none,
+      table.hline(stroke: 1.5pt),
+      ..body,
+      table.hline(stroke: 1.5pt),
+    )
   } else {
-    1
+    table(
+      columns: columns,
+      rows: rows,
+      align: table-align,
+      inset: inset,
+      stroke: none,
+      table.hline(stroke: 1.5pt),
+      table.header(
+        repeat: repeat-header,
+        ..header,
+        table.hline(stroke: 0.75pt),
+      ),
+      ..body,
+      table.hline(stroke: 1.5pt),
+    )
   }
+}
 
   context {
     // 重置续表状态

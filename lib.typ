@@ -47,7 +47,6 @@
   show heading.where(level: 1): it => {
     counter(figure.where(kind: image)).update(0)
     counter(figure.where(kind: table)).update(0)
-    counter("table-counter").update(0)
     counter(math.equation).update(0)
     it
   }
