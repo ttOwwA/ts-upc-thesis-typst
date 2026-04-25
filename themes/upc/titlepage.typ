@@ -2,7 +2,8 @@
 // themes/upc/titlepage.typ: UPC 封面布局
 // ============================================================
 
-#import "../../lib.typ": fonts, utils
+#import "../../lib/fonts.typ"
+#import "../../lib/utils.typ"
 #import "colors.typ" as colors
 
 #let titlepage(

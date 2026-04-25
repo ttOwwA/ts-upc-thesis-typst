@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Release Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: 0.14.2
+
+      - name: Install fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-fandol poppler-utils
+
+      - name: Compile demo thesis
+        run: |
+          cd demo
+          typst compile --root .. thesis-upc.typ thesis-upc.pdf
+
+      - name: Generate thumbnail from demo PDF (page 1)
+        run: |
+          pdftoppm -png -f 1 -l 1 -r 150 demo/thesis-upc.pdf thumbnail
+          mv thumbnail-1.png thumbnail.png
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            demo/thesis-upc.pdf
+            thumbnail.png
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

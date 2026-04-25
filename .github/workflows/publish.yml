@@ -1,0 +1,98 @@
+name: Publish to Typst Universe
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to Universe
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract package metadata
+        id: meta
+        run: |
+          NAME=$(grep '^name' typst.toml | head -1 | sed 's/.*= *"\(.*\)".*/\1/')
+          VERSION=$(grep '^version' typst.toml | head -1 | sed 's/.*= *"\(.*\)".*/\1/')
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "pkg_id=${NAME}-${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify tag matches version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${{ steps.meta.outputs.version }}"
+          if [[ "${TAG}" != "v${VERSION}" ]]; then
+            echo "Tag ${TAG} does not match version v${VERSION}" >&2
+            exit 1
+          fi
+
+      - name: Package files for Universe
+        run: |
+          mkdir -p "dist/${{ steps.meta.outputs.name }}"
+          # Copy only files that should be published (respect typst.toml exclude)
+          rsync -av \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.agents' \
+            --exclude='demo' \
+            --exclude='scripts' \
+            --exclude='.typstignore' \
+            --exclude='.gitignore' \
+            --exclude='AGENTS.md' \
+            --exclude='*.md' \
+            ./ "dist/${{ steps.meta.outputs.name }}/${{ steps.meta.outputs.version }}/"
+          # Keep README.md if it exists at root
+          cp README.md "dist/${{ steps.meta.outputs.name }}/${{ steps.meta.outputs.version }}/" 2>/dev/null || true
+          # Also keep thumbnail.png
+          cp thumbnail.png "dist/${{ steps.meta.outputs.name }}/${{ steps.meta.outputs.version }}/" 2>/dev/null || true
+          cd dist
+          zip -r "${{ steps.meta.outputs.pkg_id }}.zip" "${{ steps.meta.outputs.name }}"
+
+      - name: Checkout Universe registry
+        uses: actions/checkout@v4
+        with:
+          repository: typst/packages
+          token: ${{ secrets.REGISTRY_TOKEN }}
+          path: registry
+          sparse-checkout: |
+            packages/preview/${{ steps.meta.outputs.name }}
+
+      - name: Push to registry fork
+        env:
+          REGISTRY_FORK: ${{ secrets.REGISTRY_FORK }}
+          GIT_USER_NAME: ${{ github.actor }}
+          GIT_USER_EMAIL: ${{ github.actor }}@users.noreply.github.com
+        run: |
+          cd registry
+          git config user.name "${GIT_USER_NAME}"
+          git config user.email "${GIT_USER_EMAIL}"
+          
+          PKG_NAME="${{ steps.meta.outputs.name }}"
+          PKG_VERSION="${{ steps.meta.outputs.version }}"
+          PKG_ID="${{ steps.meta.outputs.pkg_id }}"
+          
+          rm -rf "packages/preview/${PKG_NAME}/${PKG_VERSION}"
+          mkdir -p "packages/preview/${PKG_NAME}"
+          cp -r "../dist/${PKG_NAME}/${PKG_VERSION}" "packages/preview/${PKG_NAME}/"
+          
+          git checkout -b "${PKG_ID}"
+          git add .
+          git commit -m "${PKG_NAME}:${PKG_VERSION}"
+          
+          git remote add fork "https://x-access-token:${{ secrets.REGISTRY_TOKEN }}@github.com/${REGISTRY_FORK}.git"
+          git push --force --set-upstream fork "${PKG_ID}"
+
+      - name: Summary
+        run: |
+          echo "Package ${{ steps.meta.outputs.name }} v${{ steps.meta.outputs.version }} has been pushed to your fork."
+          echo "Please open a PR from branch ${{ steps.meta.outputs.pkg_id }} to typst/packages."

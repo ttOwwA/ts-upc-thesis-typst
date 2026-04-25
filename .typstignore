@@ -1,0 +1,24 @@
+# Git
+.git
+.gitignore
+
+# GitHub
+.github
+
+# Development
+.agents
+demo
+scripts
+AGENTS.md
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep README and thumbnail
+!README.md
+!thumbnail.png

@@ -5,10 +5,10 @@
 ## 编译
 
 ```bash
-typst compile thesis-upc.typ thesis-upc.pdf
+typst compile demo/thesis-upc.typ demo/thesis-upc.pdf
 ```
 
-入口文件始终是 `thesis-upc.typ`。
+开发示例入口为 `demo/thesis-upc.typ`，发布包入口为 `lib.typ`。
 
 ## 核心约束
 
@@ -39,7 +39,7 @@ typst compile thesis-upc.typ thesis-upc.pdf
 - 续表逻辑基于 `state("_tltable-start-page")` 记录表格起始页号，通过 `context` 比较当前页与起始页判断是否为续页。
 
 ### 图片引用路径
-`chapters/upc/` 中的文件引用根目录图片，必须使用 `../../img/xxx.pdf`，不能写 `./img/xxx.pdf`。
+`demo/chapters/upc/` 中的文件引用 `demo/img/` 下的图片，必须使用 `../../img/xxx.pdf`，不能写 `./img/xxx.pdf`。
 
 ## 字体
 
@@ -71,7 +71,7 @@ sudo apt-get install fonts-fandol
 
 ## 论文结构顺序
 
-`thesis-upc.typ` 中的顺序必须固定：
+`demo/thesis-upc.typ` / `template/thesis.typ` 中的顺序必须固定：
 封面 → 原创性声明 + 授权书（同一页） → 中文摘要 → 英文摘要 → 目录 → 正文（`#show: setup-mainmatter` 后 `#include chapters`）→ 致谢 → 参考文献 → 附录
 
 致谢、参考文献、附录使用 `heading(level: 1, numbering: none, outlined: true)` 加入目录。
@@ -83,7 +83,7 @@ sudo apt-get install fonts-fandol
 
 ## 开发工作流
 
-- 模板开发可直接在当前目录编译 `thesis-upc.typ`。
+- 模板开发可直接编译 `demo/thesis-upc.typ`。
 - 作为独立 Typst 包，可直接复制本仓库或发布到 Typst Universe 使用。
 - **修改后的人工检查**：涉及图表编号、caption 位置、页眉页脚、续表、目录层级等视觉效果的修改，编译后请务必人工查看 PDF 确认效果，不要仅依赖编译通过。
 
@@ -91,7 +91,11 @@ sudo apt-get install fonts-fandol
 
 | 用途 | 文件 |
 |------|------|
-| 论文入口 | `thesis-upc.typ` |
+| 用途 | 文件 |
+|------|------|
+| 包入口（Typst Universe） | `lib.typ` |
+| 开发示例论文 | `demo/thesis-upc.typ` |
+| 用户模板（Typst Universe） | `template/thesis.typ` |
 | 封面 | `themes/upc/titlepage.typ` |
 | 核心样式（页眉/页脚/章节/目录/摘要/声明） | `themes/upc/style.typ` |
 | 按章编号 + 计数器重置 | `lib.typ` |
@@ -99,7 +103,7 @@ sudo apt-get install fonts-fandol
 | 三线表续表/字号常量/工具函数 | `lib/utils.typ` |
 | 字体回退链 | `lib/fonts.typ` |
 | 目录生成 | `lib/hyperref.typ` |
-| 参考文献 | `literature/literature-upc.bib` |
-| 正文章节 | `chapters/upc/chapter{1..5}.typ` |
-| 附录 | `chapters/upc/appendix.typ` |
+| 开发示例参考文献 | `demo/literature/literature-upc.bib` |
+| 开发正文章节 | `demo/chapters/upc/chapter{1..5}.typ` |
+| 开发附录 | `demo/chapters/upc/appendix.typ` |
 | 校徽 | `themes/upc/logo.pdf` |

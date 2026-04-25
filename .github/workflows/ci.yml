@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Demo & Template
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: 0.14.2
+
+      - name: Install fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-fandol poppler-utils
+
+      - name: Compile demo thesis
+        run: |
+          cd demo
+          typst compile --root .. thesis-upc.typ thesis-upc.pdf
+
+      - name: Compile template
+        run: |
+          cd template
+          typst compile thesis.typ thesis.pdf
+
+      - name: Generate thumbnail from demo PDF (page 1)
+        run: |
+          pdftoppm -png -f 1 -l 1 -r 150 demo/thesis-upc.pdf thumbnail
+          mv thumbnail-1.png thumbnail.png
+
+      - name: Upload demo PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: thesis-upc-pdf
+          path: demo/thesis-upc.pdf
+
+      - name: Upload thumbnail artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: thumbnail-png
+          path: thumbnail.png

@@ -1,5 +1,5 @@
-#import "../../lib.typ": three-line-table
-#import "../../themes/upc/style.typ": appendix-section
+#import "../../../lib.typ": three-line-table
+#import "../../../themes/upc/style.typ": appendix-section
 
 #appendix-section("A")[
   == 附录 A 名词术语及缩略词

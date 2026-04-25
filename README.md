@@ -1,20 +1,67 @@
-# ts-upc-thesis-typst
+# ts-upc-thesis
 
 > **免责声明**：本模板为个人开源项目，**非中国石油大学（华东）官方模板**。排版规范参考学校发布的《本科毕业设计（论文）撰写规范》制作，仅供学习交流使用。正式提交前请以学校官方提供的 Word/LaTeX 模板或教务处最新要求为准。
 
 中国石油大学（华东）本科毕业设计（论文）Typst 模板，独立框架，开箱即用。
 
-## 快速开始
+[![Typst Universe](https://img.shields.io/badge/Typst%20Universe-ts--upc--thesis-blue)](https://typst.app/universe/package/ts-upc-thesis)
+
+快速浏览效果：[查看 thesis-upc.pdf](https://github.com/ttOwwA/ts-upc-thesis-typst/releases/latest/download/thesis-upc.pdf)
+
+![模板预览](thumbnail.png)
+
+## 使用方式
+
+### Typst Universe（推荐）
+
+模板已上传至 [Typst Universe](https://typst.app/universe/package/ts-upc-thesis)，可直接通过包管理器导入：
+
+```typst
+#import "@preview/ts-upc-thesis:0.1.0": (
+  documentclass, make-outline, three-line-table, hcell,
+  upc-apply as theme-apply, setup-mainmatter,
+  frontmatter-header, mainmatter-header, footer-content,
+  upcabstractcn, upcabstracten, upcacknowledgements,
+  upcoriginality, upclicense, appendix-env, titlepage,
+)
+```
+
+在 [Typst Web App](https://typst.app/?template=ts-upc-thesis&version=0.1.0) 中选择 `Start from template` 即可在线创建项目。
+
+### VS Code 本地编辑
+
+1. 安装 [Tinymist Typst](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist) 插件。
+2. 通过 Template Gallery 搜索 `ts-upc-thesis` 并创建项目。
+3. 打开 `thesis.typ`，按 `Ctrl + K V` 实时预览。
+
+### 本地开发
 
 ```bash
 git clone https://github.com/ttOwwA/ts-upc-thesis-typst.git
 cd ts-upc-thesis-typst
-typst compile thesis-upc.typ thesis-upc.pdf
+# 编译开发示例
+typst compile demo/thesis-upc.typ demo/thesis-upc.pdf
 ```
 
-## 使用方式
+## 项目结构
 
-直接编辑 `thesis-upc.typ` 中的元数据与摘要内容，并在 `chapters/upc/` 下撰写各章正文即可。模板已内置封面、原创性声明、授权书、目录、页眉页脚、按章编号等全部排版功能，无需额外依赖。
+```
+ts-upc-thesis-typst/
+├── lib.typ              # 包入口（Typst Universe）
+├── lib/                 # 通用库（字号、字体、工具函数等）
+├── themes/upc/          # UPC 主题（封面、样式、校徽）
+├── template/            # 用户模板（发布到 Universe）
+│   ├── thesis.typ       # 用户论文占位符
+│   ├── ref.bib          # 示例参考文献
+│   └── images/          # 示例图片
+├── demo/                # 开发示例（不打包）
+│   ├── thesis-upc.typ   # 完整示例论文
+│   ├── chapters/        # 示例章节
+│   ├── img/             # 示例图片
+│   └── literature/      # 示例参考文献
+├── thumbnail.png        # Typst Universe 预览缩略图
+└── README.md
+```
 
 ## 字体安装
 
@@ -36,31 +83,6 @@ sudo apt-get install fonts-fandol
 ```
 
 **注意**：Windows 用户编译时可能会出现 `warning: unknown font family: deja vu serif`，此为无害警告（Times New Roman 已被正确使用）。若想去掉该警告，可临时删除 `lib/fonts.typ` 中的 `"DejaVu Serif"`。
-
-## 项目结构
-
-```
-ts-upc-thesis-typst/
-├── thesis-upc.typ              # 论文入口（修改元数据、摘要、结构顺序）
-├── lib.typ                     # 核心入口（字体、排版、按章编号）
-├── lib/
-│   ├── fonts.typ               # 字体回退链
-│   ├── chinese.typ             # 中文排版（行距、缩进、章节格式）
-│   ├── utils.typ               # 字号常量与工具函数
-│   ├── hyperref.typ            # 目录生成
-│   └── ...
-├── themes/upc/
-│   ├── style.typ               # UPC 核心样式（页眉页脚/摘要/声明/目录/致谢）
-│   ├── titlepage.typ           # 封面模板
-│   ├── logo.pdf                # 校徽
-│   └── ...
-├── chapters/upc/               # 正文内容
-│   ├── chapter1.typ ~ chapter5.typ
-│   └── appendix.typ
-├── literature/
-│   └── literature-upc.bib      # 参考文献
-└── README.md
-```
 
 ## 许可证
 

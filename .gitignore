@@ -1,7 +1,6 @@
 # Typst
 *.pdf
 *.svg
-*.png
 
 # IDE
 .vscode/
@@ -10,3 +9,8 @@
 # OS
 .DS_Store
 Thumbs.db
+
+# Keep preview assets in repo
+!thumbnail.png
+!demo/thesis-upc.pdf
+!template/images/logo.pdf

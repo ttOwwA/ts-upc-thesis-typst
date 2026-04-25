@@ -3,7 +3,9 @@
 // 实现中国石油大学（华东）本科毕业设计论文排版规范
 // ============================================================
 
-#import "../../lib.typ": fonts, utils, i18n
+#import "../../lib/fonts.typ"
+#import "../../lib/utils.typ"
+#import "../../lib/i18n.typ"
 #import "colors.typ" as colors
 #import "defaults.typ" as defaults
 

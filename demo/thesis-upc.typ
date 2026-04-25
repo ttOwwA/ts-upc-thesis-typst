@@ -3,8 +3,8 @@
 // 中国石油大学（华东）本科毕业设计论文
 // ============================================================
 
-#import "lib.typ": documentclass, make-outline
-#import "themes/upc/style.typ": (
+#import "../lib.typ": documentclass, make-outline
+#import "../themes/upc/style.typ": (
   apply as theme-apply,
   setup-mainmatter,
   frontmatter-header,
@@ -18,7 +18,7 @@
   appendix-env,
   appendix-section,
 )
-#import "themes/upc/titlepage.typ": titlepage
+#import "../themes/upc/titlepage.typ": titlepage
 
 #show: documentclass.with(
   theme: theme-apply.with(

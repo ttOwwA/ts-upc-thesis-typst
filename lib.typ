@@ -106,3 +106,20 @@
 
 // 导出表头辅助函数
 #let hcell = utils.hcell
+
+// ---- 导出 UPC 主题函数（供模板直接使用，避免子路径导入） ----
+#import "themes/upc/style.typ" as _upc-style
+#import "themes/upc/titlepage.typ" as _upc-titlepage
+
+#let upc-apply = _upc-style.apply
+#let setup-mainmatter = _upc-style.setup-mainmatter
+#let frontmatter-header = _upc-style.frontmatter-header
+#let mainmatter-header = _upc-style.mainmatter-header
+#let footer-content = _upc-style.footer-content
+#let upcabstractcn = _upc-style.upcabstractcn
+#let upcabstracten = _upc-style.upcabstracten
+#let upcacknowledgements = _upc-style.upcacknowledgements
+#let upcoriginality = _upc-style.upcoriginality
+#let upclicense = _upc-style.upclicense
+#let appendix-env = _upc-style.appendix-env
+#let titlepage = _upc-titlepage.titlepage

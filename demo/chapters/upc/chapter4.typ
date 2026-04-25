@@ -4,7 +4,7 @@
 
 关于激光入射功率密度对导轨滚道表面硬化层深和显微硬度的影响如表 @tab:4-1 所示。为验证三线表在跨页场景下的排版效果，以下表格故意放置在页面底部附近，若内容超出当前页，应在第二页重复表头右上方显示"续表4-1"。
 
-#import "../../lib.typ": three-line-table, hcell
+#import "../../../lib.typ": three-line-table, hcell
 
 #v(12cm)
 
