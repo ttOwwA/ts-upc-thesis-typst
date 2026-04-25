@@ -46,8 +46,8 @@ jobs:
       - name: Generate thumbnail from demo PDF (page 1)
         run: |
           pdftoppm -png -f 1 -l 1 -r 150 demo/thesis-upc.pdf thumbnail
-          # pdftoppm may create thumbnail-1.png or thumbnail.png depending on version
-          mv thumbnail*.png thumbnail.png
+          # Some pdftoppm versions output thumbnail-1.png, others output thumbnail.png
+          if [ -f thumbnail-1.png ]; then mv thumbnail-1.png thumbnail.png; fi
 
       - name: Upload demo PDF artifact
         uses: actions/upload-artifact@v4
