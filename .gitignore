@@ -1,0 +1,12 @@
+# Typst
+*.pdf
+*.svg
+*.png
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

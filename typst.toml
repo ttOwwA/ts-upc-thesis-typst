@@ -1,0 +1,15 @@
+[package]
+name = "ts-upc-thesis"
+version = "0.1.0"
+entrypoint = "thesis-upc.typ"
+authors = ["@ttOwwA"]
+license = "MIT"
+description = "中国石油大学（华东）本科毕设 Typst 模板"
+repository = "https://github.com/ttOwwA/ts-upc-thesis-typst"
+keywords = ["thesis", "template", "bachelor", "upc", "typst"]
+categories = ["thesis", "template"]
+
+[template]
+path = "template"
+entrypoint = "thesis-upc.typ"
+thumbnail = "template/thumbnail.png"
