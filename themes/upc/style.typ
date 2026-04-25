@@ -180,6 +180,9 @@
   set figure(supplement: [图])
   show figure.where(kind: table): set figure(supplement: [表])
 
+  // ---- 表格 figure 允许跨页（续表必需） ----
+  show figure.where(kind: table): set block(breakable: true)
+
   // ---- 表格默认样式：居中、五号宋体 ----
   // 注意：不设置全局 stroke: none，以免 table.hline() 默认不可见。
   // 三线表请使用 three-line-table 辅助函数或在 table() 参数中显式指定 stroke: none。
@@ -198,7 +201,7 @@
   show raw: set par(leading: 12pt)
   show raw: set text(size: utils.xiaowu)
 
-  // ---- 引用格式：与 LaTeX \ref 一致，只显示编号（不重复 supplement），保留超链接 ----
+  // ---- 引用格式：只显示编号，保留超链接 ----
   show ref: it => {
     context {
       let targets = query(it.target)

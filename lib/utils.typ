@@ -57,6 +57,9 @@
 #let appendix-active = state("appendix-active", false)
 #let appendix-letter = state("appendix-letter", "")
 
+// ---- 续表状态（跨页表头续表标注起始页号） ----
+#let _tltable-start-page = state("_tltable-start-page", 0)
+
 // ---- 表头辅助：名称与单位分行显示 ----
 // 用法 1（自动拆分）：hcell("辐照时间/s")  =>  辐照时间 在上，/s 在下
 // 用法 2（手动传入）：hcell([功率密度], [/$W dot "cm"^(-2)$])
@@ -85,10 +88,17 @@
 }
 
 // ---- 三线表辅助函数 ----
-// 自动添加三线表格式（顶粗线、头细线、底粗线），并支持表头分页重复。
+// 自动添加三线表格式（顶粗线、头细线、底粗线），并支持跨页续表标注。
+// 跨页时自动在续页表头右上方显示"续表X-X"（正文）或"续表AX"（附录）。
 // 使用示例：
 //   #three-line-table(
 //     columns: 3,
+//     header: ([列1], [列2], [列3]),
+//     [数据1], [数据2], [数据3],
+//   )
+//   #three-line-table(
+//     columns: 3,
+//     continued: false,  // 小型表格，不跨页重复
 //     header: ([列1], [列2], [列3]),
 //     [数据1], [数据2], [数据3],
 //   )
@@ -97,10 +107,18 @@
   rows: auto,
   table-align: center + horizon,
   inset: 6pt,
-  repeat-header: true,
+  continued: true,
   header: (),
   ..body
 ) = {
+  let col-count = if type(columns) == int {
+    columns
+  } else if type(columns) == array {
+    columns.len()
+  } else {
+    if header.len() > 0 { header.len() } else { 1 }
+  }
+
   if header == () {
     table(
       columns: columns,
@@ -109,6 +127,46 @@
       inset: inset,
       stroke: none,
       table.hline(stroke: 1.5pt),
+      ..body,
+      table.hline(stroke: 1.5pt),
+    )
+  } else if continued {
+    context {
+      _tltable-start-page.update(here().page())
+    }
+    table(
+      columns: columns,
+      rows: rows,
+      align: table-align,
+      inset: inset,
+      stroke: none,
+      table.header(
+        repeat: true,
+        table.cell(
+          colspan: col-count,
+          inset: (x: 6pt, top: 0pt, bottom: 0pt),
+          align(right, context {
+            let sp = _tltable-start-page.at(here())
+            let cp = here().page()
+            if cp > sp {
+              let is-app = appendix-active.at(here())
+              if is-app {
+                let letter = appendix-letter.at(here())
+                let nums = counter(figure.where(kind: table)).at(here())
+                text(size: 10pt, "续表" + str(letter) + str(nums.last()))
+              } else {
+                let ch = counter(heading.where(level: 1)).at(here()).first()
+                let nums = counter(figure.where(kind: table)).at(here())
+                text(size: 10pt, "续表" + str(ch) + "-" + str(nums.last()))
+              }
+              v(3pt)
+            }
+          }),
+        ),
+        table.hline(stroke: 1.5pt),
+        ..header,
+        table.hline(stroke: 0.75pt),
+      ),
       ..body,
       table.hline(stroke: 1.5pt),
     )
@@ -121,115 +179,12 @@
       stroke: none,
       table.hline(stroke: 1.5pt),
       table.header(
-        repeat: repeat-header,
+        repeat: false,
         ..header,
         table.hline(stroke: 0.75pt),
       ),
       ..body,
       table.hline(stroke: 1.5pt),
     )
-  }
-}
-
-  context {
-    // 重置续表状态
-    three-line-table-first.update(false)
-    three-line-table-fig-number.update(none)
-
-    // 若提供了 caption，在 table 前手动输出编号与标题
-    let ch = 0
-    let num = 0
-    if caption != none {
-      ch = counter(heading.where(level: 1)).at(here()).first()
-      let tc = counter("table-counter")
-      num = tc.get().last() + 1
-      tc.step()
-
-      // 保存编号供续表复用
-      three-line-table-number.update((ch, num))
-
-      align(center, text(size: wuhao, "表 " + str(ch) + "-" + str(num) + "  " + caption))
-    } else if auto-caption {
-      // 被 figure 包裹时，从 figure 计数器推断编号并保存
-      let fig-nums = counter(figure.where(kind: table)).at(here())
-      let fig-num = fig-nums.last() + 1
-      let is-app = appendix-active.at(here())
-      let prefix = if is-app {
-        let letter = appendix-letter.at(here())
-        str(letter) + str(fig-num)
-      } else {
-        let ch-num = counter(heading.where(level: 1)).at(here()).first()
-        str(ch-num) + "-" + str(fig-num)
-      }
-      three-line-table-fig-number.update(prefix)
-    }
-
-    // 若提供了 label，存入引用映射
-    if label != none {
-      table-ref-map.update(m => {
-        let key = repr(label)
-        m.insert(key, (ch, num))
-        m
-      })
-    }
-
-    let tbl = if header == () {
-      table(
-        columns: columns,
-        rows: rows,
-        align: table-align,
-        inset: inset,
-        stroke: none,
-        table.hline(stroke: 1.5pt),
-        ..body,
-        table.hline(stroke: 1.5pt),
-      )
-    } else {
-      table(
-        columns: columns,
-        rows: rows,
-        align: table-align,
-        inset: inset,
-        stroke: none,
-        table.hline(stroke: 1.5pt),
-        table.header(
-          repeat: repeat-header,
-          ..if auto-caption {
-            (
-              table.cell(
-                colspan: cols-count,
-                align: right,
-                inset: (top: 0pt, bottom: 0pt, rest: 6pt),
-                context {
-                  if three-line-table-first.get() {
-                    let val = three-line-table-number.get()
-                    if val != none {
-                      let (rch, rnum) = val
-                      text(size: wuhao, "续表" + str(rch) + "-" + str(rnum))
-                    } else {
-                      let fig-prefix = three-line-table-fig-number.get()
-                      if fig-prefix != none {
-                        text(size: wuhao, "续表" + fig-prefix)
-                      }
-                    }
-                  } else {
-                    three-line-table-first.update(true)
-                  }
-                }
-              ),
-              table.hline(stroke: 1.5pt),
-            )
-          } else {
-            ()
-          },
-          ..header,
-          table.hline(stroke: 0.75pt),
-        ),
-        ..body,
-        table.hline(stroke: 1.5pt),
-      )
-    }
-
-    tbl
   }
 }

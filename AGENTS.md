@@ -27,6 +27,17 @@ typst compile thesis-upc.typ thesis-upc.pdf
 
 对应地，计数器重置（`counter(figure.where(kind: image)).update(0)` / `counter(figure.where(kind: table)).update(0)` 等）放在 `lib.typ` 的 `show heading.where(level: 1)` 中，因为 `themes/upc/style.typ` 的同名规则会覆盖 `lib/chinese.typ` 的规则，若只在后者重置会失效。图片与表格使用独立的 kind-specific 计数器。
 
+### 三线表续表
+- **前提**：`themes/upc/style.typ` 中设置了 `show figure.where(kind: table): set block(breakable: true)`，确保 `figure` 包裹的 `table` 可以跨页分页。
+- `three-line-table` 的 `continued` 参数（默认 `true`）控制跨页续表行为：
+  - `continued: true`（默认）：表头跨页重复，并在续页**顶粗线上方**右对齐显示"续表X-X"（正文）或"续表A1"（附录）。
+  - `continued: false`：表头不重复，适用于小型表格。
+- 续表编号自动从 `counter(figure.where(kind: table))` 推断，无需手动传入。
+- 续表标注字号 10pt，右对齐，与顶粗线之间保留 3pt 垂直间距。
+- 首页表格的续表行为空行（高度最小化），不占用视觉空间。
+- `columns` 为 `auto` 时，列数从 `header` 推断（假设单行表头）。多行表头请显式指定 `columns`。
+- 续表逻辑基于 `state("_tltable-start-page")` 记录表格起始页号，通过 `context` 比较当前页与起始页判断是否为续页。
+
 ### 图片引用路径
 `chapters/upc/` 中的文件引用根目录图片，必须使用 `../../img/xxx.pdf`，不能写 `./img/xxx.pdf`。
 
@@ -85,6 +96,7 @@ sudo apt-get install fonts-fandol
 | 核心样式（页眉/页脚/章节/目录/摘要/声明） | `themes/upc/style.typ` |
 | 按章编号 + 计数器重置 | `lib.typ` |
 | 中文字号/行距/章节格式 | `lib/chinese.typ` |
+| 三线表续表/字号常量/工具函数 | `lib/utils.typ` |
 | 字体回退链 | `lib/fonts.typ` |
 | 目录生成 | `lib/hyperref.typ` |
 | 参考文献 | `literature/literature-upc.bib` |
