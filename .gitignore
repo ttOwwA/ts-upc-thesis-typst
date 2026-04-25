@@ -13,6 +13,7 @@ Thumbs.db
 # Keep preview assets in repo
 !thumbnail.png
 !demo/thesis-upc.pdf
+!demo/img/example.pdf
 !template/images/logo.pdf
 !themes/upc/logo.pdf
 
