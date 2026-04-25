@@ -57,6 +57,8 @@ sudo apt-get install fonts-fandol
 
 回退链定义在 `lib/fonts.typ`。
 
+**Typst Web App**：在线环境未预装 Windows 中文字体。如需获得与本地 Windows 一致的字形，请将 Fandol 或系统字体文件（`.ttf`/`.otf`）上传至项目根目录，Typst 会自动发现并优先使用。
+
 **平台差异说明**：
 - **Windows** 自带 Times New Roman、SimSun、SimHei、KaiTi、FangSong，但通常没有 DejaVu Serif。编译时可能出现 `warning: unknown font family: deja vu serif`，此为无害警告（Times New Roman 已被正确使用）。若想去掉警告，可临时删除 `lib/fonts.typ` 中的 `"DejaVu Serif"`。
 - **Linux** 通常自带 DejaVu Serif，但可能没有 Times New Roman。若使用 Fandol 作为中文字体回退，则同样可能出现关于 Times New Roman 的无害警告。

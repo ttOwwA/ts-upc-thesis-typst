@@ -12,7 +12,13 @@ permissions:
 jobs:
   build:
     name: Build Demo & Template
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      TYPST_FONT_PATHS: ${{ github.workspace }}/fandol
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,13 +28,27 @@ jobs:
         with:
           typst-version: 0.14.2
 
-      - name: Install fonts
+      - name: Install Fandol fonts
+        shell: bash
+        run: |
+          curl -fsSL -o fandol.zip https://mirrors.ctan.org/fonts/fandol.zip
+          python3 -c "import zipfile; zipfile.ZipFile('fandol.zip').extractall('.')"
+          rm -f fandol/FandolBraille-*.otf fandol/*-Bold.otf
+          echo "Fandol fonts installed to ./fandol"
+          ls -la fandol/
+
+      - name: Install dependencies (Ubuntu)
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          # poppler-utils is required for pdftoppm (thumbnail generation)
           sudo apt-get install -y poppler-utils
-          # Try to install Chinese fonts; fall back to Noto CJK if fandol is unavailable
-          sudo apt-get install -y fonts-fandol || sudo apt-get install -y fonts-noto-cjk || true
+          sudo apt-get install -y fonts-fandol || true
+
+      - name: Install Python & PyMuPDF
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pymupdf
 
       - name: Compile demo thesis
         run: |
@@ -36,7 +56,8 @@ jobs:
           typst compile --root .. thesis-upc.typ thesis-upc.pdf
 
       - name: Install package locally for template test
-        run: bash scripts/package @preview
+        run: bash scripts/package '@preview'
+        shell: bash
 
       - name: Compile template
         run: |
@@ -45,18 +66,23 @@ jobs:
 
       - name: Generate thumbnail from demo PDF (page 1)
         run: |
-          pdftoppm -png -f 1 -l 1 -r 150 demo/thesis-upc.pdf thumbnail
-          # Some pdftoppm versions output thumbnail-1.png, others output thumbnail.png
-          if [ -f thumbnail-1.png ]; then mv thumbnail-1.png thumbnail.png; fi
+          python -c "
+          import fitz
+          doc = fitz.open('demo/thesis-upc.pdf')
+          page = doc[0]
+          pix = page.get_pixmap(dpi=150)
+          pix.save('thumbnail.png')
+          print('thumbnail.png generated')
+          "
 
       - name: Upload demo PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: thesis-upc-pdf
+          name: thesis-upc-pdf-${{ matrix.os }}
           path: demo/thesis-upc.pdf
 
       - name: Upload thumbnail artifact
         uses: actions/upload-artifact@v4
         with:
-          name: thumbnail-png
+          name: thumbnail-png-${{ matrix.os }}
           path: thumbnail.png

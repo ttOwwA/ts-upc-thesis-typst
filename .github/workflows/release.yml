@@ -12,6 +12,8 @@ jobs:
   build:
     name: Build Release Artifacts
     runs-on: ubuntu-latest
+    env:
+      TYPST_FONT_PATHS: ${{ github.workspace }}/fandol
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,11 +23,20 @@ jobs:
         with:
           typst-version: 0.14.2
 
-      - name: Install fonts
+      - name: Install Fandol fonts
         run: |
+          curl -fsSL -o fandol.zip https://mirrors.ctan.org/fonts/fandol.zip
+          python3 -c "import zipfile; zipfile.ZipFile('fandol.zip').extractall('.')"
+          rm -f fandol/FandolBraille-*.otf fandol/*-Bold.otf
           sudo apt-get update
           sudo apt-get install -y poppler-utils
-          sudo apt-get install -y fonts-fandol || sudo apt-get install -y fonts-noto-cjk || true
+          sudo apt-get install -y fonts-fandol || true
+
+      - name: Install Python & PyMuPDF
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pymupdf
 
       - name: Compile demo thesis
         run: |
@@ -34,9 +45,14 @@ jobs:
 
       - name: Generate thumbnail from demo PDF (page 1)
         run: |
-          pdftoppm -png -f 1 -l 1 -r 150 demo/thesis-upc.pdf thumbnail
-          # Some pdftoppm versions output thumbnail-1.png, others output thumbnail.png
-          if [ -f thumbnail-1.png ]; then mv thumbnail-1.png thumbnail.png; fi
+          python -c "
+          import fitz
+          doc = fitz.open('demo/thesis-upc.pdf')
+          page = doc[0]
+          pix = page.get_pixmap(dpi=150)
+          pix.save('thumbnail.png')
+          print('thumbnail.png generated')
+          "
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2

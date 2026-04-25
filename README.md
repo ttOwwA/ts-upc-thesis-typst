@@ -50,7 +50,7 @@ cd template && typst compile thesis.typ
 
 ## 项目结构
 
-```
+```text
 ts-upc-thesis-typst/
 ├── lib.typ              # 包入口（Typst Universe）
 ├── lib/                 # 通用库（字号、字体、工具函数等）
@@ -86,6 +86,8 @@ Linux/WSL 可安装 Fandol 作为中文字体回退：
 ```bash
 sudo apt-get install fonts-fandol
 ```
+
+**Typst Web App**：在线环境未预装 Windows 中文字体（SimSun/SimHei 等）。如需获得与本地 Windows 一致的字形，请将 Fandol 或系统字体文件（`.ttf`/`.otf`）上传至项目根目录，Typst 会自动发现并优先使用。
 
 **注意**：Windows 用户编译时可能会出现 `warning: unknown font family: deja vu serif`，此为无害警告（Times New Roman 已被正确使用）。若想去掉该警告，可临时删除 `lib/fonts.typ` 中的 `"DejaVu Serif"`。
 

@@ -34,7 +34,7 @@
 // CJK 仿宋回退链
 #let cjk-fang = (
   "FangSong",
-  "FandolFang",
+  "FandolFang R",
 )
 
 // 辅助函数：返回可用的字体列表
