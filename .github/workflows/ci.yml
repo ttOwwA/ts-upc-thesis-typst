@@ -25,7 +25,10 @@ jobs:
       - name: Install fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y fonts-fandol poppler-utils
+          # poppler-utils is required for pdftoppm (thumbnail generation)
+          sudo apt-get install -y poppler-utils
+          # Try to install Chinese fonts; fall back to Noto CJK if fandol is unavailable
+          sudo apt-get install -y fonts-fandol || sudo apt-get install -y fonts-noto-cjk || true
 
       - name: Compile demo thesis
         run: |
