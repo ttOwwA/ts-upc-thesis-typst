@@ -35,6 +35,9 @@ jobs:
           cd demo
           typst compile --root .. thesis-upc.typ thesis-upc.pdf
 
+      - name: Install package locally for template test
+        run: bash scripts/package @preview
+
       - name: Compile template
         run: |
           cd template
