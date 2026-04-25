@@ -86,6 +86,7 @@ sudo apt-get install fonts-fandol
 - 模板开发可直接编译 `demo/thesis-upc.typ`。
 - 作为独立 Typst 包，可直接复制本仓库或发布到 Typst Universe 使用。
 - **修改后的人工检查**：涉及图表编号、caption 位置、页眉页脚、续表、目录层级等视觉效果的修改，编译后请务必人工查看 PDF 确认效果，不要仅依赖编译通过。
+- **提交信息规范**：统一使用中文，格式如 `feat: 实现三线表续表标注`、`fix: 修复字体回退链`、`docs: 更新 README 使用说明`、`ci: 修复 GitHub Actions 字体安装`。类型参考：feat/fix/docs/ci/refactor/chore。
 
 ## 关键文件映射
 
