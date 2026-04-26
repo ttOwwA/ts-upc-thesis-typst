@@ -67,6 +67,7 @@
 ]
 
 // ---- 目录 ----
+#set page(header: frontmatter-header, footer: none)
 #make-outline(title-override: [目#h(1em)录])
 
 // ---- 正文 ----

@@ -44,7 +44,7 @@
   college: "学院",
   major: "专业",
   advisor: "导师姓名",
-  date: "2025年6月",
+  date: "2026年6月20日",
 )
 
 // ---- 原创性声明与授权书（同一页） ----
@@ -72,6 +72,7 @@
 ]
 
 // ---- 目录 ----
+#set page(header: frontmatter-header, footer: none)
 #make-outline(title-override: [目#h(1em)录])
 
 // ---- 正文 ----

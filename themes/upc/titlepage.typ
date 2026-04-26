@@ -43,13 +43,14 @@
 
     // 信息表格
     #let info-row(label, value) = grid(
-      columns: (100pt, 220pt),
-      align(right + horizon, text(size: utils.sanhao, font: fonts.get-cjk-fang(), label)),
+      columns: (100pt, 240pt),
+      column-gutter: 1em,
+      align(right + horizon, utils.fakebold(text(size: utils.sanhao, font: fonts.get-cjk-fang(), label))),
       align(left + horizon, box(
         width: 100%,
         stroke: (bottom: 0.5pt),
-        inset: (bottom: 0.2em),
-        align(left, text(size: utils.sanhao, value)),
+        outset: (bottom: 0.8em),
+        align(center + horizon, text(size: utils.sanhao, font: fonts.get-cjk-fang(), value)),
       )),
     )
 
@@ -63,7 +64,7 @@
     #v(0.5em)
     #info-row("指导教师：", advisor)
 
-    #v(1fr)
+    #v(6 * utils.xiaosi)
 
     // 日期
     #text(size: utils.xiaoer, font: fonts.get-cjk-sans(),
