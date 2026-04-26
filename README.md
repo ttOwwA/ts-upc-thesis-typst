@@ -8,6 +8,8 @@
 
 ![模板预览](thumbnail.png)
 
+> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](docs/getting-started.md)，无需编程基础，15 分钟上手。
+
 ## 使用方式
 
 ### Typst Universe（推荐）
