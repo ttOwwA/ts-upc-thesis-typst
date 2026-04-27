@@ -21,7 +21,7 @@ jobs:
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
-          typst-version: 0.14.2
+          typst-version: 0.14.x
 
       - name: Install Fandol fonts
         run: |

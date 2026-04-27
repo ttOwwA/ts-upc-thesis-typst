@@ -10,7 +10,7 @@ A Typst template for bachelor's thesis of China University of Petroleum (East Ch
 
 ![模板预览](thumbnail.png)
 
-> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/master/docs/getting-started.md)，无需编程基础，15 分钟上手。
+> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/v0.1.0/docs/getting-started.md)，无需编程基础，15 分钟上手。
 
 ## 使用方式
 
