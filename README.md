@@ -1,8 +1,10 @@
-# ts-upc-thesis
+# modern-upc-thesis
+
+A Typst template for bachelor's thesis of China University of Petroleum (East China).
 
 中国石油大学（华东）本科毕业设计（论文）Typst 模板，独立框架，开箱即用。
 
-[![Typst Universe](https://img.shields.io/badge/Typst%20Universe-ts--upc--thesis-blue)](https://typst.app/universe/package/ts-upc-thesis)
+[![Typst Universe](https://img.shields.io/badge/Typst%20Universe-modern--upc--thesis-blue)](https://typst.app/universe/package/modern-upc-thesis)
 
 快速浏览效果：[查看 thesis-upc.pdf](https://github.com/ttOwwA/ts-upc-thesis-typst/releases/latest/download/thesis-upc.pdf)
 
@@ -14,10 +16,10 @@
 
 ### Typst Universe（推荐）
 
-模板已上传至 [Typst Universe](https://typst.app/universe/package/ts-upc-thesis)，可直接通过包管理器导入：
+模板已上传至 [Typst Universe](https://typst.app/universe/package/modern-upc-thesis)，可直接通过包管理器导入：
 
 ```typst
-#import "@preview/ts-upc-thesis:0.1.0": (
+#import "@preview/modern-upc-thesis:0.1.0": (
   documentclass, make-outline, three-line-table, hcell,
   upc-apply as theme-apply, setup-mainmatter,
   frontmatter-header, mainmatter-header, footer-content,
@@ -26,12 +28,12 @@
 )
 ```
 
-在 [Typst Web App](https://typst.app/?template=ts-upc-thesis&version=0.1.0) 中选择 `Start from template` 即可在线创建项目。
+在 [Typst Web App](https://typst.app/?template=modern-upc-thesis&version=0.1.0) 中选择 `Start from template` 即可在线创建项目。
 
 ### VS Code 本地编辑
 
 1. 安装 [Tinymist Typst](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist) 插件。
-2. 通过 Template Gallery 搜索 `ts-upc-thesis` 并创建项目。
+2. 通过 Template Gallery 搜索 `modern-upc-thesis` 并创建项目。
 3. 打开 `thesis.typ`，按 `Ctrl + K V` 实时预览。
 
 ### 本地开发

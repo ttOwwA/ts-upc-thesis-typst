@@ -9,7 +9,7 @@
 //   4. 将图片放入 images/ 目录，引用路径为 "images/xxx.png"
 // ============================================================
 
-#import "@preview/ts-upc-thesis:0.1.0": (
+#import "@preview/modern-upc-thesis:0.1.0": (
   documentclass, make-outline, three-line-table, hcell,
   upc-apply as theme-apply,
   setup-mainmatter,

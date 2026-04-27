@@ -1,4 +1,4 @@
-# AGENTS.md — ts-upc-thesis-typst
+# AGENTS.md — modern-upc-thesis-typst
 
 中国石油大学（华东）本科毕设论文 Typst 模板。
 
