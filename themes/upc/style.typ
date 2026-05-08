@@ -151,25 +151,36 @@
     if it.numbering != none {
       pagebreak()
     }
-    set align(center)
-    set text(size: utils.sanhao, font: upchei)
-    v(0.5 * utils.line-spacing-15)
-    it
-    v(1.5 * utils.line-spacing-15)
+    block(
+      above: 0.5 * utils.line-spacing-15,
+      below: 1.5 * utils.line-spacing-15,
+      align(center, {
+        set text(size: utils.sanhao, font: upchei)
+        it
+      })
+    )
   }
 
   show heading.where(level: 2): it => {
-    set text(size: utils.sihao, font: upchei)
-    v(9pt)
-    it
-    v(9pt)
+    block(
+      above: 9pt,
+      below: 9pt,
+      {
+        set text(size: utils.sihao, font: upchei)
+        it
+      }
+    )
   }
 
   show heading.where(level: 3): it => {
-    set text(size: utils.xiaosi, font: upchei)
-    v(9pt)
-    it
-    v(9pt)
+    block(
+      above: 9pt,
+      below: 9pt,
+      {
+        set text(size: utils.xiaosi, font: upchei)
+        it
+      }
+    )
   }
 
   // ---- 图表标题：五号宋体，格式为"图 1-1  标题" ----

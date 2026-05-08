@@ -18,9 +18,8 @@ typst compile demo/thesis-upc.typ demo/thesis-upc.pdf
 - 错误：`"题\quad 目"`、`"本\ 科\ 毕\ 业\ 设\ 计"`
 
 ### 每章必须独立分页
-一级标题的 `show` 规则必须使用 `pagebreak()`（强制分页）。
-- `pagebreak(weak: true)` 会跳过分页，导致各章连在一起。
-- 同时存在于 `lib/chinese.typ` 和 `themes/upc/style.typ`，两处都要改。
+一级标题的 `show` 规则必须使用 `pagebreak()`（强制分页，位于 `themes/upc/style.typ`）。
+- `pagebreak(weak: true)` 只在当前页为空时跳过分页。当上一章恰好填满页面、下一页尚未放置内容时，Typst 会误判当前页为"空"，从而跳过分页导致各章连在一起。因此必须使用无参 `pagebreak()`。
 
 ### 按章编号：图/表/公式必须在 `lib.typ` 顶层设置
 `set figure(numbering: ...)` 和 `set math.equation(numbering: ...)` 必须放在 `documentclass` 函数的顶层作用域（当前位于 `lib.typ` 中），不能放在嵌套的 `apply()` 函数内。否则 `numbering` 回调中的 `context` 不传播，导致编号失效。
