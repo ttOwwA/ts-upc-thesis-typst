@@ -149,7 +149,7 @@ $ E = m c^2 $ <eqt:emc>
   show regex("\[\d+\]"): m => box(width: 1.5em, align(left, m))
   body
 }
-#bibliography("ref.bib", style: "../assets/gb-t-7714-2015-upc.csl", title: [参考文献])
+#bibliography("ref.bib", style: "gb-t-7714-2015-upc.csl", title: [参考文献])
 
 // ---- 附录 ----
 #set page(header: frontmatter-header, footer: footer-content)

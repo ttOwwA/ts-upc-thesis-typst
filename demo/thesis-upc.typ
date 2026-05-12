@@ -92,7 +92,7 @@
   show regex("\[\d+\]"): m => box(width: 1.5em, align(left, m))
   body
 }
-#bibliography("literature/literature-upc.bib", style: "../assets/gb-t-7714-2015-upc.csl", title: [参考文献])
+#bibliography("literature/literature-upc.bib", style: "../template/gb-t-7714-2015-upc.csl", title: [参考文献])
 
 // ---- 附录 ----
 #set page(header: frontmatter-header, footer: footer-content)
