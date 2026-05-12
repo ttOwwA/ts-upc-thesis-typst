@@ -6,11 +6,11 @@ A Typst template for bachelor's thesis of China University of Petroleum (East Ch
 
 [![Typst Universe](https://img.shields.io/badge/Typst%20Universe-modern--upc--thesis-blue)](https://typst.app/universe/package/modern-upc-thesis)
 
-快速浏览效果：[查看 thesis-upc.pdf](demo/thesis-upc.pdf)
+快速浏览效果：[查看 thesis-upc.pdf](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/v0.2.0/demo/thesis-upc.pdf)
 
 ![模板预览](thumbnail.png)
 
-> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/main/docs/getting-started.md)，无需编程基础，15 分钟上手。
+> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/v0.2.0/docs/getting-started.md)，无需编程基础，15 分钟上手。
 
 ## 使用方式
 
