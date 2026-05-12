@@ -6,11 +6,11 @@ A Typst template for bachelor's thesis of China University of Petroleum (East Ch
 
 [![Typst Universe](https://img.shields.io/badge/Typst%20Universe-modern--upc--thesis-blue)](https://typst.app/universe/package/modern-upc-thesis)
 
-快速浏览效果：[查看 thesis-upc.pdf](https://github.com/ttOwwA/ts-upc-thesis-typst/releases/latest/download/thesis-upc.pdf)
+快速浏览效果：[查看 thesis-upc.pdf](demo/thesis-upc.pdf)
 
 ![模板预览](thumbnail.png)
 
-> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/v0.1.1/docs/getting-started.md)，无需编程基础，15 分钟上手。
+> 🚀 **第一次使用？** 推荐阅读 [《从零开始写论文：小白上手教程》](https://github.com/ttOwwA/ts-upc-thesis-typst/blob/main/docs/getting-started.md)，无需编程基础，15 分钟上手。
 
 ## 使用方式
 
@@ -19,7 +19,7 @@ A Typst template for bachelor's thesis of China University of Petroleum (East Ch
 模板已上传至 [Typst Universe](https://typst.app/universe/package/modern-upc-thesis)，可直接通过包管理器导入：
 
 ```typst
-#import "@preview/modern-upc-thesis:0.1.1": (
+#import "@preview/modern-upc-thesis:0.2.0": (
   documentclass, make-outline, three-line-table, hcell,
   upc-apply as theme-apply, setup-mainmatter,
   frontmatter-header, mainmatter-header, footer-content,
@@ -28,7 +28,7 @@ A Typst template for bachelor's thesis of China University of Petroleum (East Ch
 )
 ```
 
-在 [Typst Web App](https://typst.app/?template=modern-upc-thesis&version=0.1.1) 中选择 `Start from template` 即可在线创建项目。
+在 [Typst Web App](https://typst.app/?template=modern-upc-thesis&version=0.2.0) 中选择 `Start from template` 即可在线创建项目。
 
 ### VS Code 本地编辑
 

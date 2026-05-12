@@ -72,7 +72,7 @@
   // 正文字体必须在 base.apply 中直接设置，不能放在 theme 的 show: 规则内。
   // Typst 在 show: func 中，若 func 通过参数传入，其内部的 set text(font: ...)
   // 会被忽略，导致字体回退到系统默认。
-  let body-fonts = fonts.get-cjk-serif() + fonts.get-latin-fonts()
+  let body-fonts = fonts.get-latin-fonts() + fonts.get-cjk-serif()
   show: base.apply.with(page-margin: page-margin, fontsize: fontsize, font: body-fonts)
   show: chinese.apply.with(line-spacing: line-spacing)
   show: hyperref.apply

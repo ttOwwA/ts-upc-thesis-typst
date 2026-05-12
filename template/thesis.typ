@@ -9,7 +9,7 @@
 //   4. 将图片放入 images/ 目录，引用路径为 "images/xxx.png"
 // ============================================================
 
-#import "@preview/modern-upc-thesis:0.1.1": (
+#import "@preview/modern-upc-thesis:0.2.0": (
   documentclass, make-outline, three-line-table, hcell,
   upc-apply as theme-apply,
   setup-mainmatter,
@@ -145,7 +145,11 @@ $ E = m c^2 $ <eqt:emc>
 
 // ---- 参考文献 ----
 #set page(header: frontmatter-header, footer: footer-content)
-#bibliography("ref.bib", style: "gb-7714-2015-numeric", title: [参考文献])
+#show bibliography: body => {
+  show regex("\[\d+\]"): m => box(width: 1.5em, align(left, m))
+  body
+}
+#bibliography("ref.bib", style: "../assets/gb-t-7714-2015-upc.csl", title: [参考文献])
 
 // ---- 附录 ----
 #set page(header: frontmatter-header, footer: footer-content)

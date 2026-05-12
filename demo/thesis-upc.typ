@@ -88,7 +88,11 @@
 
 // ---- 参考文献 ----
 #set page(header: frontmatter-header, footer: footer-content)
-#bibliography("literature/literature-upc.bib", style: "gb-7714-2015-numeric", title: [参考文献])
+#show bibliography: body => {
+  show regex("\[\d+\]"): m => box(width: 1.5em, align(left, m))
+  body
+}
+#bibliography("literature/literature-upc.bib", style: "../assets/gb-t-7714-2015-upc.csl", title: [参考文献])
 
 // ---- 附录 ----
 #set page(header: frontmatter-header, footer: footer-content)

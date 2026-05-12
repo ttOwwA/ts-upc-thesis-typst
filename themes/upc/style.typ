@@ -14,7 +14,7 @@
 #let upchei = fonts.get-cjk-sans()
 #let upckai = fonts.get-cjk-kai()
 #let upcfang = fonts.get-cjk-fang()
-#let body-fonts = upcsong + fonts.get-latin-fonts()
+#let body-fonts = fonts.get-latin-fonts() + upcsong
 #let en-fonts = fonts.get-latin-fonts() + upcsong
 
 // ---- 页眉页脚组件 ----
@@ -107,15 +107,23 @@
   align(center, text(size: utils.sanhao, weight: heading-weight, font: heading-font, heading-text))
   v(0.5 * utils.line-spacing-15)
 
-  if body-font != none {
-    set text(font: body-font)
-  }
   set par(first-line-indent: par-indent, leading: utils.line-spacing-15)
-  body
+  if body-font != none {
+    text(font: body-font, body)
+  } else {
+    body
+  }
 
   v(0.5 * utils.line-spacing-15)
-  utils.fakebold(text(keyword-prefix))
-  keywords.join(keyword-sep)
+  if body-font != none {
+    text(font: body-font, [
+      #utils.fakebold(text(keyword-prefix))
+      #keywords.join(keyword-sep)
+    ])
+  } else {
+    utils.fakebold(text(keyword-prefix))
+    keywords.join(keyword-sep)
+  }
 
   pagebreak()
 }
@@ -140,9 +148,9 @@
 
   // ---- 正文字体已由 lib/base.typ 统一设置（宋体小四 + 西文回退）
   // 此处只定义 body-fonts 供局部覆盖（如 strong、目录）使用 ----
-  let body-fonts = upcsong + fonts.get-latin-fonts()
+  let body-fonts = fonts.get-latin-fonts() + upcsong
 
-  // ---- strong 使用宋体 + 伪粗体（与 LaTeX \textbf 一致）----
+  // ---- strong 使用西文 + 宋体 + 伪粗体（与 LaTeX \textbf 一致）----
   show strong: it => utils.fakebold(text(font: body-fonts, it.body))
 
   // ---- 章节字体与间距 ----
@@ -152,6 +160,7 @@
       pagebreak()
     }
     block(
+      width: 100%,
       above: 0.5 * utils.line-spacing-15,
       below: 1.5 * utils.line-spacing-15,
       align(center, {
@@ -163,23 +172,25 @@
 
   show heading.where(level: 2): it => {
     block(
-      above: 9pt,
-      below: 9pt,
-      {
+      width: 100%,
+      above: 21pt,
+      below: 21pt,
+      align(left, {
         set text(size: utils.sihao, font: upchei)
         it
-      }
+      })
     )
   }
 
   show heading.where(level: 3): it => {
     block(
-      above: 9pt,
-      below: 9pt,
-      {
+      width: 100%,
+      above: 18pt,
+      below: 18pt,
+      align(left, {
         set text(size: utils.xiaosi, font: upchei)
         it
-      }
+      })
     )
   }
 
