@@ -24,6 +24,7 @@
   appendix-env,
   titlepage,
 )
+#import "@preview/gb7714-bilingual:0.2.3": init-gb7714, gb7714-bibliography
 
 #show: documentclass.with(
   theme: theme-apply.with(
@@ -76,6 +77,12 @@
 #make-outline(title-override: [目#h(1em)录])
 
 // ---- 正文 ----
+#show: init-gb7714.with(
+  read("ref.bib"),
+  style: "numeric",
+  version: "2015",
+)
+
 #show: setup-mainmatter
 
 = 引言
@@ -143,13 +150,19 @@ $ E = m c^2 $ <eqt:emc>
   在此向所有在论文撰写与研究过程中给予帮助和支持的老师、同学及家人致以诚挚的感谢。
 ]
 
-// ---- 参考文献 ----
 #set page(header: frontmatter-header, footer: footer-content)
-#show bibliography: body => {
-  show regex("\[\d+\]"): m => box(width: 1.5em, align(left, m))
-  body
-}
-#bibliography("ref.bib", style: "gb-t-7714-2015-upc.csl", title: [参考文献])
+#heading(level: 1, numbering: none, outlined: true)[参考文献]
+#gb7714-bibliography(
+  full-control: entries => {
+    for e in entries {
+      par(justify: true, first-line-indent: 0pt, justification-limits: (tracking: (min: -0.08em, max: 0.08em)))[
+        #box(width: 1.5em, align(left, "[" + str(e.order) + "]"))
+        #e.labeled-rendered
+      ]
+    }
+  },
+  title: none,
+)
 
 // ---- 附录 ----
 #set page(header: frontmatter-header, footer: footer-content)

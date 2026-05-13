@@ -19,6 +19,7 @@
   appendix-section,
 )
 #import "../themes/upc/titlepage.typ": titlepage
+#import "@preview/gb7714-bilingual:0.2.3": init-gb7714, gb7714-bibliography
 
 #show: documentclass.with(
   theme: theme-apply.with(
@@ -71,6 +72,12 @@
 #make-outline(title-override: [目#h(1em)录])
 
 // ---- 正文 ----
+#show: init-gb7714.with(
+  read("literature/literature-upc.bib"),
+  style: "numeric",
+  version: "2015",
+)
+
 #show: setup-mainmatter
 
 #include "chapters/upc/chapter1.typ"
@@ -88,11 +95,18 @@
 
 // ---- 参考文献 ----
 #set page(header: frontmatter-header, footer: footer-content)
-#show bibliography: body => {
-  show regex("\[\d+\]"): m => box(width: 1.5em, align(left, m))
-  body
-}
-#bibliography("literature/literature-upc.bib", style: "../template/gb-t-7714-2015-upc.csl", title: [参考文献])
+#heading(level: 1, numbering: none, outlined: true)[参考文献]
+#gb7714-bibliography(
+  full-control: entries => {
+    for e in entries {
+      par(justify: true, first-line-indent: 0pt, justification-limits: (tracking: (min: -0.08em, max: 0.08em)))[
+        #box(width: 1.5em, align(left, "[" + str(e.order) + "]"))
+        #e.labeled-rendered
+      ]
+    }
+  },
+  title: none,
+)
 
 // ---- 附录 ----
 #set page(header: frontmatter-header, footer: footer-content)
