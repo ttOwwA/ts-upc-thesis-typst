@@ -17,7 +17,7 @@
 #let xiaowu = 9pt       // 小五
 
 // ---- 行距常量 ----
-#let line-spacing-15 = 18pt
+#let line-spacing-15 = 15pt
 #let line-spacing-20 = 24pt
 #let line-spacing-25 = 30pt
 
