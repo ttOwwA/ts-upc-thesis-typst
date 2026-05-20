@@ -159,10 +159,11 @@
     if it.numbering != none {
       pagebreak()
     }
+    v(12pt)
     block(
       width: 100%,
-      above: 0.5 * utils.line-spacing-15,
-      below: 1.5 * utils.line-spacing-15,
+      above: 0pt,
+      below: 44pt,
       align(center, {
         set text(size: utils.sanhao, font: upchei)
         it
@@ -173,8 +174,8 @@
   show heading.where(level: 2): it => {
     block(
       width: 100%,
-      above: 21pt,
-      below: 21pt,
+      above: 19pt,
+      below: 19pt,
       align(left, {
         set text(size: utils.sihao, font: upchei)
         it
@@ -185,8 +186,8 @@
   show heading.where(level: 3): it => {
     block(
       width: 100%,
-      above: 18pt,
-      below: 18pt,
+      above: 15pt,
+      below: 15pt,
       align(left, {
         set text(size: utils.xiaosi, font: upchei)
         it

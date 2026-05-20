@@ -155,10 +155,7 @@ $ E = m c^2 $ <eqt:emc>
 #gb7714-bibliography(
   full-control: entries => {
     for e in entries {
-      par(justify: true, first-line-indent: 0pt, justification-limits: (tracking: (min: -0.08em, max: 0.08em)))[
-        #box(width: 1.5em, align(left, "[" + str(e.order) + "]"))
-        #e.labeled-rendered
-      ]
+      par(justify: true, first-line-indent: 0pt, justification-limits: (tracking: (min: -0.08em, max: 0.08em)))[#box(width: 1.7em, align(left, "[" + str(e.order) + "]"))#e.labeled-rendered]
     }
   },
   title: none,

@@ -10,12 +10,12 @@
   body,
 ) = {
   let margin = if page-margin == auto {
-    (x: 2.5cm, y: 2.5cm)
+    (x: 2.5cm, top: 2.75cm, bottom: 2.5cm)
   } else {
     page-margin
   }
 
-  set page(margin: margin)
+  set page(margin: margin, header-ascent: 0.6cm)
 
   // 字体和字号统一在此设置，避免 theme 通过参数传递后
   // 在 show: 规则内 set text(font: ...) 被 Typst 忽略的问题。
