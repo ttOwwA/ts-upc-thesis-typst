@@ -88,7 +88,9 @@
 }
 
 // ---- 三线表辅助函数 ----
-// 自动添加三线表格式（顶粗线、头细线、底粗线），并支持跨页续表标注。
+// 自动添加三线表格式（顶粗线、头细线、底粗线）。
+// continued: true（默认）  → 允许跨页，并在续页右上方显示"续表X-X"
+// continued: false         → 强制整张表不跨页（用 block(breakable: false) 包裹）
 // 跨页时自动在续页表头右上方显示"续表X-X"（正文）或"续表AX"（附录）。
 // 使用示例：
 //   #three-line-table(
@@ -98,7 +100,7 @@
 //   )
 //   #three-line-table(
 //     columns: 3,
-//     continued: false,  // 小型表格，不跨页重复
+//     continued: false,  // 强制不跨页
 //     header: ([列1], [列2], [列3]),
 //     [数据1], [数据2], [数据3],
 //   )
@@ -120,7 +122,7 @@
   }
 
   if header == () {
-    table(
+    let _t = table(
       columns: columns,
       rows: rows,
       align: table-align,
@@ -130,10 +132,8 @@
       ..body,
       table.hline(stroke: 1.5pt),
     )
+    if continued { _t } else { block(breakable: false, _t) }
   } else if continued {
-    context {
-      _tltable-start-page.update(here().page())
-    }
     table(
       columns: columns,
       rows: rows,
@@ -146,20 +146,24 @@
           colspan: col-count,
           inset: (x: 6pt, top: 0pt, bottom: 0pt),
           align(right, context {
-            let sp = _tltable-start-page.at(here())
+            // 通过 query 定位当前 figure 的起始页（比 state 更可靠）
+            let figs = query(selector(figure).before(here(), inclusive: true))
             let cp = here().page()
-            if cp > sp {
-              let is-app = appendix-active.at(here())
-              if is-app {
-                let letter = appendix-letter.at(here())
-                let nums = counter(figure.where(kind: table)).at(here())
-                text(size: 10pt, "续表" + str(letter) + str(nums.last()))
-              } else {
-                let ch = counter(heading.where(level: 1)).at(here()).first()
-                let nums = counter(figure.where(kind: table)).at(here())
-                text(size: 10pt, "续表" + str(ch) + "-" + str(nums.last()))
+            if figs.len() > 0 {
+              let sp = figs.last().location().page()
+              if cp > sp {
+                let is-app = appendix-active.at(here())
+                if is-app {
+                  let letter = appendix-letter.at(here())
+                  let nums = counter(figure.where(kind: table)).at(here())
+                  text(size: 10pt, "续表" + str(letter) + str(nums.last()))
+                } else {
+                  let ch = counter(heading.where(level: 1)).at(here()).first()
+                  let nums = counter(figure.where(kind: table)).at(here())
+                  text(size: 10pt, "续表" + str(ch) + "-" + str(nums.last()))
+                }
+                v(3pt)
               }
-              v(3pt)
             }
           }),
         ),
@@ -171,7 +175,7 @@
       table.hline(stroke: 1.5pt),
     )
   } else {
-    table(
+    block(breakable: false, table(
       columns: columns,
       rows: rows,
       align: table-align,
@@ -185,6 +189,6 @@
       ),
       ..body,
       table.hline(stroke: 1.5pt),
-    )
+    ))
   }
 }
