@@ -35,12 +35,16 @@
     let heading-text = relevant-headings.last()
     let ch-num = counter(heading.where(level: 1)).at(heading-text.location()).first()
     let title-text = heading-text.body
-      stack(
-        dir: ttb,
-        spacing: 0.3em,
-        align(center, move(dy: -1pt, text(size: utils.wuhao, font: upckai, "第 " + str(ch-num) + " 章" + h(0.5em) + title-text))),
-        line(length: 100%, stroke: 0.4pt),
-      )
+    stack(
+      dir: ttb,
+      spacing: 0.3em,
+      align(center, move(dy: -1pt, text(
+        size: utils.wuhao,
+        font: upckai,
+        "第 " + str(ch-num) + " 章" + h(0.5em) + title-text,
+      ))),
+      line(length: 100%, stroke: 0.4pt),
+    )
   }
 }
 
@@ -60,18 +64,15 @@
 }
 
 // ---- 内部辅助：签名与日期栏（原创性声明 / 授权书共用） ----
-#let _signature-block(author-label: [论文作者（签名）：#h(4em)], advisor-label: [指导教师确认（签名）：#h(4em)]) = {
-  v(4 * utils.line-spacing-15)
+#let _signature-block(author-label, advisor-label) = {
+  v(63pt)
   grid(
     columns: (1fr, 1fr),
-    align(center, author-label),
-    align(center, advisor-label),
+    align(center, [#author-label#h(4pt)]), align(center, [#advisor-label#h(4pt)]),
   )
-  v(1em)
   grid(
     columns: (1fr, 1fr),
-    align(right, [#h(1em)年#h(1em)月#h(1em)日]),
-    align(right, [#h(1em)年#h(1em)月#h(1em)日]),
+    align(right, [年#h(1.5em)月#h(1.5em)日#h(1.5em)]), align(right, [年#h(1.5em)月#h(1.5em)日#h(1em)]),
   )
 }
 
@@ -167,7 +168,7 @@
       align(center, {
         set text(size: utils.sanhao, font: upchei)
         it
-      })
+      }),
     )
   }
 
@@ -179,7 +180,7 @@
       align(left, {
         set text(size: utils.sihao, font: upchei)
         it
-      })
+      }),
     )
   }
 
@@ -191,7 +192,7 @@
       align(left, {
         set text(size: utils.xiaosi, font: upchei)
         it
-      })
+      }),
     )
   }
 
@@ -334,9 +335,9 @@
 // ---- 原创性声明 ----
 // 注意：页面设置（header/footer）由调用方统一控制，本函数只输出内容。
 #let upcoriginality(title: "") = {
-  v(1 * utils.line-spacing-15)
-  align(center, text(size: utils.xiaosan, font: upchei, "学位论文原创性声明"))
-  v(1 * utils.line-spacing-15)
+  v(4pt)
+  align(center, text(size: utils.xiaosan, font: upchei, [#h(2em)学位论文原创性声明]))
+  v(35pt)
 
   set par(leading: utils.line-spacing-15, first-line-indent: 2em)
   if title != "" {
@@ -351,28 +352,23 @@
     ]
   }
 
-  _signature-block(
-    author-label: [论文作者（签名）：#h(4em)],
-    advisor-label: [指导教师确认（签名）：#h(4em)],
-  )
+  _signature-block("论文作者（签名）：", "指导教师确认（签名）：")
 }
 
 // ---- 版权授权书 ----
 // 注意：页面设置（header/footer）由调用方统一控制，本函数只输出内容。
 #let upclicense() = {
-  v(2 * utils.line-spacing-15)
-  align(center, text(size: utils.xiaosan, font: upchei, "学位论文版权使用授权书"))
-  v(1 * utils.line-spacing-15)
+  v(49pt)
+  align(center, text(size: utils.xiaosan, font: upchei, [#h(2em)学位论文版权使用授权书]))
+  v(35pt)
 
   set par(leading: utils.line-spacing-15, first-line-indent: 2em)
   text[
     本学位论文作者完全了解中国石油大学（华东）有权保留并向国家有关部门或机构送交学位论文的复印件和磁盘，允许论文被查阅和借阅。本人授权中国石油大学（华东）可以将学位论文的全部或部分内容编入有关数据库进行检索，可以采用影印、缩印或其它复制手段保存、汇编学位论文。
   ]
 
-  _signature-block(
-    author-label: [论文作者（签名）：#h(4em)],
-    advisor-label: [指导教师（签名）：#h(4em)],
-  )
+  v(32pt)
+  _signature-block("论文作者（签名）：", "指导教师（签名）：")
 }
 
 // ---- 附录环境 ----
