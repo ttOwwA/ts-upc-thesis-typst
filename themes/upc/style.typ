@@ -41,7 +41,7 @@
       align(center, move(dy: -1pt, text(
         size: utils.wuhao,
         font: upckai,
-        "第 " + str(ch-num) + " 章" + h(0.5em) + title-text,
+        "第" + str(ch-num) + "章" + "  " + title-text,
       ))),
       line(length: 100%, stroke: 0.4pt),
     )
@@ -167,7 +167,11 @@
       below: 44pt,
       align(center, {
         set text(size: utils.sanhao, font: upchei)
-        it
+        if it.numbering != none {
+          [#counter(heading).display(it.numbering)#"  "#it.body]
+        } else {
+          it.body
+        }
       }),
     )
   }
@@ -196,12 +200,12 @@
     )
   }
 
-  // ---- 图表标题：五号宋体，格式为"图 1-1  标题" ----
+  // ---- 图表标题：五号宋体，格式为"图1-1 标题" ----
   show figure.where(kind: image): set figure.caption(position: bottom)
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.caption: it => {
     set text(size: utils.wuhao, font: upcsong)
-    it.supplement + " " + it.counter.display(it.numbering) + "  " + it.body
+    it.supplement + it.counter.display(it.numbering) + " " + it.body
   }
   set figure(supplement: [图])
   show figure.where(kind: table): set figure(supplement: [表])

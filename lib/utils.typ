@@ -27,7 +27,7 @@
 #let ch-numbering(..nums) = {
   let arr = nums.pos()
   if arr.len() == 1 {
-    "第 " + str(arr.first()) + " 章"
+    "第" + str(arr.first()) + "章"
   } else {
     arr.map(str).join(".")
   }
