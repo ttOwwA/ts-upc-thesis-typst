@@ -43,14 +43,8 @@
   // ----------------------------------------------------------
   // 按章编号：图、表、公式
   // 必须在 show: 调用之前设置，因为它们需要直接作用于 body
+  // 注意：计数器重置放到了主题层的 show heading 规则中（在 block 转换前执行）
   // ----------------------------------------------------------
-  show heading.where(level: 1): it => {
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
-    counter(math.equation).update(0)
-    it
-  }
-
   let _fig-numbering(prefix: "") = (..nums) => {
     context {
       let ch = counter(heading.where(level: 1)).at(here()).first()

@@ -156,9 +156,13 @@
 
   // ---- 章节字体与间距 ----
   // 只对编号的一级标题（正文章节）强制分页，避免目录、致谢、参考文献等无编号标题产生空白页。
+  // 同时在此重置图/表/公式计数器（必须在 block 转换之前，外层的重写规则无法生效）
   show heading.where(level: 1): it => {
     if it.numbering != none {
       pagebreak()
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
+      counter(math.equation).update(0)
     }
     v(12pt)
     block(
